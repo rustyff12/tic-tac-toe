@@ -20,7 +20,7 @@ class Cursor {
         Screen.setBackgroundColor(this.row, this.col, this.cursorColor);
     }
 
-    up() {
+    up = () => {
         // reset current position background color
         this.resetBackgroundColor();
         if (this.row !== 0) {
@@ -28,31 +28,31 @@ class Cursor {
         }
         // set the new position background color
         this.setBackgroundColor();
-    }
+    };
 
-    down() {
+    down = () => {
         this.resetBackgroundColor();
         if (this.row < this.numRows - 1) {
             this.row++;
         }
         this.setBackgroundColor();
-    }
+    };
 
-    left() {
+    left = () => {
         this.resetBackgroundColor();
         if (this.col !== 0) {
             this.col--;
         }
         this.setBackgroundColor();
-    }
+    };
 
-    right() {
+    right = () => {
         this.resetBackgroundColor();
         if (this.col < this.numCols - 1) {
             this.col++;
         }
         this.setBackgroundColor();
-    }
+    };
 }
 
 module.exports = Cursor;

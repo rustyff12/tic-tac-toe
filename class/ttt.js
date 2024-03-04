@@ -12,60 +12,23 @@ class TTT {
         ];
 
         this.cursor = new Cursor(3, 3);
-
+        // this.placeMove = this.placeMove.bind(this);
         // Initialize a 3x3 tic-tac-toe grid
         Screen.initialize(3, 3);
         Screen.setGridlines(true);
 
         // Replace this with real commands
-        Screen.addCommand("w", "move cursor up", this.cursorUp);
-        Screen.addCommand("s", "move cursor down", this.cursorDown);
-        Screen.addCommand("a", "move cursor left", this.cursorLeft);
-        Screen.addCommand("d", "move cursor right", this.cursorRight);
+        Screen.addCommand("up", "move cursor up", this.cursor.up);
+        Screen.addCommand("down", "move cursor down", this.cursor.down);
+        Screen.addCommand("left", "move cursor left", this.cursor.left);
+        Screen.addCommand("right", "move cursor right", this.cursor.right);
         Screen.addCommand(
-            "p",
+            "return",
             "place move at cursor's position",
             this.placeMove
         );
 
         Screen.render();
-    }
-
-    // cursor movement
-    cursorUp() {
-        this.cursor.up();
-        console.log("Cursor Up");
-    }
-    cursorDown() {
-        this.cursor.down();
-        console.log("Cursor Down");
-    }
-    cursorLeft() {
-        this.cursor.left();
-        console.log("Cursor Left");
-    }
-    cursorRight() {
-        this.cursor.right();
-        console.log("Cursor Right");
-    }
-
-    // place cursor
-    placeMove() {
-        const { row, col } = this.cursor;
-        console.log(this.cursor);
-        if (this.grid[row][col] === " ") {
-            this.grid[row][col] = this.playerTurn;
-            // Check for win after placing move
-            const winnerCheck = checkWin(this.grid);
-            if (winnerCheck) {
-                this.endGame(winnerCheck);
-            } else {
-                // which turn it is
-                this.playerTurn = this.playerTurn === "X" ? "O" : "X";
-            }
-        } else {
-            console.log("Invalid move. This cell is already occupied");
-        }
     }
 
     // check win
@@ -101,6 +64,21 @@ class TTT {
 
         return "T"; // Tie, no empty cells and no winner
     }
+
+    // place cursor
+    placeMove = () => {
+        if (Screen.grid[this.cursor.row][this.cursor.col] === " ") {
+            Screen.setTextColor(this.cursor.row, this.cursor.col, "cyan");
+            Screen.setGrid(this.cursor.row, this.cursor.col, this.playerTurn);
+            Screen.render();
+
+            if (TTT.checkWin(Screen.grid)) {
+                TTT.endGame(TTT.checkWin(Screen.grid));
+            }
+        } else {
+            console.log("Ivalid move, this space is occupied");
+        }
+    };
 
     static endGame(winner) {
         if (winner === "O" || winner === "X") {
