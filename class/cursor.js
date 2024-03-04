@@ -28,6 +28,7 @@ class Cursor {
         }
         // set the new position background color
         this.setBackgroundColor();
+        Screen.render();
     };
 
     down = () => {
@@ -36,6 +37,7 @@ class Cursor {
             this.row++;
         }
         this.setBackgroundColor();
+        Screen.render();
     };
 
     left = () => {
@@ -44,6 +46,7 @@ class Cursor {
             this.col--;
         }
         this.setBackgroundColor();
+        Screen.render();
     };
 
     right = () => {
@@ -52,6 +55,7 @@ class Cursor {
             this.col++;
         }
         this.setBackgroundColor();
+        Screen.render();
     };
 }
 

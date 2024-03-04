@@ -3,7 +3,16 @@ const Cursor = require("./cursor");
 
 class TTT {
     constructor() {
-        this.playerTurn = "O";
+        // this.playerTurn = "O";
+        // player set up for two player
+        this.players = ["X", "O"];
+        this.currentPlayerIndex = 0;
+
+        // Plyer Colors
+        this.playerColors = {
+            X: "red",
+            O: "blue",
+        };
 
         this.grid = [
             [" ", " ", " "],
@@ -67,13 +76,30 @@ class TTT {
 
     // place cursor
     placeMove = () => {
+        // Getting the player symbol from array and color from object
+        const currentPlayerSymbol = this.players[this.currentPlayerIndex];
+        const currentPlayerColor = this.playerColors[currentPlayerSymbol];
+
         if (Screen.grid[this.cursor.row][this.cursor.col] === " ") {
-            Screen.setTextColor(this.cursor.row, this.cursor.col, "cyan");
-            Screen.setGrid(this.cursor.row, this.cursor.col, this.playerTurn);
+            Screen.setTextColor(
+                this.cursor.row,
+                this.cursor.col,
+                currentPlayerColor
+            );
+            Screen.setGrid(
+                this.cursor.row,
+                this.cursor.col,
+                currentPlayerSymbol
+            );
             Screen.render();
 
+            // Check for winner
             if (TTT.checkWin(Screen.grid)) {
                 TTT.endGame(TTT.checkWin(Screen.grid));
+            } else {
+                // Switch player
+                this.currentPlayerIndex =
+                    (this.currentPlayerIndex + 1) % this.players.length;
             }
         } else {
             console.log("Ivalid move, this space is occupied");
