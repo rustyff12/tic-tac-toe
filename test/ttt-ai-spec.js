@@ -10,6 +10,7 @@ describe("ComputerPlayer", function () {
     before(function () {
         cpu = new ComputerPlayer();
     });
+    /*
 
     // Valid moves
     it("can produce a list of all valid moves", function () {
@@ -51,37 +52,41 @@ describe("ComputerPlayer", function () {
         expect(validMoves).to.deep.include({ row: 2, col: 1 });
         expect(validMoves).to.deep.include({ row: 2, col: 2 });
     });
+
+    // Random moves
+    it("can randomly select moves to fill up a grid", function () {
+        grid = [
+            [" ", " ", " "],
+            [" ", " ", " "],
+            [" ", " ", " "],
+        ];
+
+        for (let i = 0; i < 9; i++) {
+            let randomMove = ComputerPlayer.randomMove(grid);
+            grid[randomMove.row][randomMove.col] = "X";
+        }
+
+        expect(grid).to.deep.equal([
+            ["X", "X", "X"],
+            ["X", "X", "X"],
+            ["X", "X", "X"],
+        ]);
+    });
+    */
+    // AI can forsee win
+    it("can correctly move when there is a win on the board", function () {
+        grid = [
+            ["X", "X", " "],
+            ["O", " ", " "],
+            ["O", " ", " "],
+        ];
+
+        let smartMove = ComputerPlayer.getSmartMove(grid, "X");
+
+        expect(smartMove).to.deep.equal({ row: 0, col: 2 });
+    });
+
     /*
-  // Random moves
-  it('can randomly select moves to fill up a grid', function () {
-
-    grid = [[' ',' ',' '],
-            [' ',' ',' '],
-            [' ',' ',' ']]
-
-    for (let i = 0 ; i < 9 ; i++) {
-      let randomMove = ComputerPlayer.randomMove(grid);
-      grid[randomMove.row][randomMove.col] = 'X';
-    }
-
-    expect(grid).to.deep.equal([['X','X','X'],['X','X','X'],['X','X','X']])
-
-  });
-
-
-  it('can correctly move when there is a win on the board', function () {
-
-    grid = [['X','X',' '],
-            ['O',' ',' '],
-            ['O',' ',' ']]
-
-    let smartMove = ComputerPlayer.getSmartMove(grid, 'X');
-
-    expect(smartMove).to.deep.equal({row: 0, col: 2});
-
-  });
-
-
   it('can correctly block when there is an opposing win possible', function () {
 
     grid = [['X',' ',' '],

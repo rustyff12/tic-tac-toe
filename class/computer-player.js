@@ -11,18 +11,25 @@ class ComputerPlayer {
                 }
             }
         }
-        console.log(validMoves);
+        // console.log(validMoves.length);
         return validMoves;
     }
 
-    /*   static randomMove(grid) {
-        // Your code here
+    static randomMove(grid) {
+        let availableMoves = this.getValidMoves(grid);
+
+        if (availableMoves.length > 0) {
+            let randomIndex = Math.floor(Math.random() * availableMoves.length);
+            return availableMoves[randomIndex];
+        } else {
+            return null;
+        }
     }
 
     static getWinningMoves(grid, symbol) {
         // Your code here
     }
-
+    /*
     static getSmartMove(grid, symbol) {
         // Your code here
     } */

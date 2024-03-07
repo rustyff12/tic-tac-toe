@@ -6,6 +6,9 @@ class TTT {
         // players
         this.players = ["X", "O"];
         this.currentPlayerIndex = 0;
+        // this.playerTurn = 0;
+        // this.computerTurn = 1;
+        // Possible if statement
 
         // Player Colors and symbols
         this.playerColors = {
