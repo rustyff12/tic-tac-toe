@@ -3,17 +3,17 @@ const Cursor = require("./cursor");
 
 class TTT {
     constructor() {
-        // this.playerTurn = "O";
-        // player set up for two player
+        // players
         this.players = ["X", "O"];
         this.currentPlayerIndex = 0;
 
-        // Plyer Colors
+        // Player Colors and symbols
         this.playerColors = {
             X: "red",
             O: "blue",
         };
 
+        // Set up of initial grid
         this.grid = [
             [" ", " ", " "],
             [" ", " ", " "],
@@ -21,26 +21,26 @@ class TTT {
         ];
 
         this.cursor = new Cursor(3, 3);
-        // this.placeMove = this.placeMove.bind(this);
+
         // Initialize a 3x3 tic-tac-toe grid
         Screen.initialize(3, 3);
         Screen.setGridlines(true);
 
-        // Replace this with real commands
+        // Screen commands for movement and placement
         Screen.addCommand("up", "move cursor up", this.cursor.up);
         Screen.addCommand("down", "move cursor down", this.cursor.down);
         Screen.addCommand("left", "move cursor left", this.cursor.left);
         Screen.addCommand("right", "move cursor right", this.cursor.right);
         Screen.addCommand(
             "return",
-            "place move at cursor's position",
+            "place move at cursor position",
             this.placeMove
         );
 
         Screen.render();
     }
 
-    // check win
+    // Check win
     static checkWin(grid) {
         const winConditions = [
             // Rows
@@ -55,7 +55,7 @@ class TTT {
             [grid[0][0], grid[1][1], grid[2][2]],
             [grid[0][2], grid[1][1], grid[2][0]],
         ];
-
+        // Check for win
         for (const condition of winConditions) {
             if (condition.every((cell) => cell === "X")) {
                 return "X";
@@ -64,7 +64,7 @@ class TTT {
             }
         }
 
-        // Check for empty cells
+        // check for empty cells
         for (const row of grid) {
             if (row.includes(" ")) {
                 return false; // Game is ongoing
@@ -74,12 +74,13 @@ class TTT {
         return "T"; // Tie, no empty cells and no winner
     }
 
-    // place cursor
+    // Places move/ cursor
     placeMove = () => {
         // Getting the player symbol from array and color from object
         const currentPlayerSymbol = this.players[this.currentPlayerIndex];
         const currentPlayerColor = this.playerColors[currentPlayerSymbol];
 
+        // Move to available grid space if possible
         if (Screen.grid[this.cursor.row][this.cursor.col] === " ") {
             Screen.setTextColor(
                 this.cursor.row,
@@ -102,7 +103,7 @@ class TTT {
                     (this.currentPlayerIndex + 1) % this.players.length;
             }
         } else {
-            console.log("Ivalid move, this space is occupied");
+            console.log("Invalid move, this space is occupied");
         }
     };
 

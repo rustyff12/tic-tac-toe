@@ -32,6 +32,7 @@ class Cursor {
     };
 
     down = () => {
+        // Move cursor down
         this.resetBackgroundColor();
         if (this.row < this.numRows - 1) {
             this.row++;
@@ -41,6 +42,7 @@ class Cursor {
     };
 
     left = () => {
+        // Move cursor left
         this.resetBackgroundColor();
         if (this.col !== 0) {
             this.col--;
@@ -50,6 +52,7 @@ class Cursor {
     };
 
     right = () => {
+        // Move cursor right
         this.resetBackgroundColor();
         if (this.col < this.numCols - 1) {
             this.col++;
@@ -60,4 +63,3 @@ class Cursor {
 }
 
 module.exports = Cursor;
-// const cursor = new Cursor(3, 3);
