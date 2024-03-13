@@ -11,7 +11,6 @@ describe("ComputerPlayer", function () {
         cpu = new ComputerPlayer();
     });
     /*
-
     // Valid moves
     it("can produce a list of all valid moves", function () {
         grid = [
@@ -73,6 +72,7 @@ describe("ComputerPlayer", function () {
         ]);
     });
     */
+
     // AI can forsee win
     it("can correctly move when there is a win on the board", function () {
         grid = [
@@ -86,33 +86,31 @@ describe("ComputerPlayer", function () {
         expect(smartMove).to.deep.equal({ row: 0, col: 2 });
     });
 
+    it("can correctly block when there is an opposing win possible", function () {
+        grid = [
+            ["X", " ", " "],
+            ["X", " ", " "],
+            ["O", "O", " "],
+        ];
+
+        let smartMove = ComputerPlayer.getSmartMove(grid, "X");
+
+        expect(smartMove).to.deep.equal({ row: 2, col: 2 });
+    });
+
+    it("will choose the win when there is choice between win and block", function () {
+        grid = [
+            ["X", "X", " "],
+            [" ", " ", " "],
+            ["O", "O", " "],
+        ];
+
+        let smartMove = ComputerPlayer.getSmartMove(grid, "X");
+
+        expect(smartMove).to.deep.equal({ row: 0, col: 2 });
+    });
+
     /*
-  it('can correctly block when there is an opposing win possible', function () {
-
-    grid = [['X',' ',' '],
-            ['X',' ',' '],
-            ['O','O',' ']]
-
-    let smartMove = ComputerPlayer.getSmartMove(grid, 'X');
-
-    expect(smartMove).to.deep.equal({row: 2, col: 2});
-
-  });
-
-
-  it('will choose the win when there is choice between win and block', function () {
-
-    grid = [['X','X',' '],
-            [' ',' ',' '],
-            ['O','O',' ']]
-
-    let smartMove = ComputerPlayer.getSmartMove(grid, 'X');
-
-    expect(smartMove).to.deep.equal({row: 0, col: 2});
-
-  });
-
-
   it('will block traps', function () {
 
     grid = [['O','X',' '],

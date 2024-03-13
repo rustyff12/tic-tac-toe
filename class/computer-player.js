@@ -1,3 +1,4 @@
+const TTT = require("./ttt");
 class ComputerPlayer {
     static getValidMoves(grid) {
         let validMoves = [];
@@ -27,12 +28,39 @@ class ComputerPlayer {
     }
 
     static getWinningMoves(grid, symbol) {
-        // Your code here
+        let winningMove = null;
+        // check for available moves
+        let availableMoves = this.getValidMoves(grid);
+
+        for (const move of availableMoves) {
+            let testGrid = grid.map((row) => row.slice());
+            testGrid[move.row][move.col] = symbol;
+            if (TTT.checkWin(testGrid) === symbol) {
+                winningMove = move;
+                break;
+            }
+        }
+
+        return winningMove;
     }
-    /*
+
     static getSmartMove(grid, symbol) {
-        // Your code here
-    } */
+        let opponent;
+        if (symbol === "X") {
+            opponent = "O";
+        } else if (symbol === "O") {
+            opponent = "X";
+        }
+
+        // check for win / block
+        if (this.getWinningMoves(grid, symbol) !== null) {
+            return this.getWinningMoves(grid, symbol);
+        } else if (this.getWinningMoves(grid, opponent) !== null) {
+            return this.getWinningMoves(grid, opponent);
+        }
+
+        // check for traps
+    }
 }
 
 module.exports = ComputerPlayer;
