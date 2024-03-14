@@ -10,7 +10,7 @@ describe("ComputerPlayer", function () {
     before(function () {
         cpu = new ComputerPlayer();
     });
-    /*
+
     // Valid moves
     it("can produce a list of all valid moves", function () {
         grid = [
@@ -71,7 +71,6 @@ describe("ComputerPlayer", function () {
             ["X", "X", "X"],
         ]);
     });
-    */
 
     // AI can forsee win
     it("can correctly move when there is a win on the board", function () {
@@ -110,19 +109,18 @@ describe("ComputerPlayer", function () {
         expect(smartMove).to.deep.equal({ row: 0, col: 2 });
     });
 
-    /*
-  it('will block traps', function () {
+    it("will block traps", function () {
+        grid = [
+            ["O", "X", " "],
+            [" ", "X", " "],
+            [" ", " ", "O"],
+        ];
 
-    grid = [['O','X',' '],
-            [' ','X',' '],
-            [' ',' ','O']]
+        let smartMove = ComputerPlayer.getSmartMove(grid, "X");
 
-    let smartMove = ComputerPlayer.getSmartMove(grid, 'X');
-
-    expect(smartMove).to.deep.equal({row: 2, col: 1});
-
-  });
-  */
+        expect(smartMove).to.deep.equal({ row: 2, col: 1 });
+    });
+    /**/
 
     // it('can play 1000 games without losing', function () {
 

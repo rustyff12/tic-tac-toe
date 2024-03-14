@@ -1,4 +1,3 @@
-const TTT = require("./ttt");
 class ComputerPlayer {
     static getValidMoves(grid) {
         let validMoves = [];
@@ -27,6 +26,31 @@ class ComputerPlayer {
         }
     }
 
+    // Check win
+    static checkWin(grid) {
+        const winConditions = [
+            // Rows
+            [grid[0][0], grid[0][1], grid[0][2]],
+            [grid[1][0], grid[1][1], grid[1][2]],
+            [grid[2][0], grid[2][1], grid[2][2]],
+            // Columns
+            [grid[0][0], grid[1][0], grid[2][0]],
+            [grid[0][1], grid[1][1], grid[2][1]],
+            [grid[0][2], grid[1][2], grid[2][2]],
+            // Diagonals
+            [grid[0][0], grid[1][1], grid[2][2]],
+            [grid[0][2], grid[1][1], grid[2][0]],
+        ];
+        // Check for win
+        for (const condition of winConditions) {
+            if (condition.every((cell) => cell === "X")) {
+                return "X";
+            } else if (condition.every((cell) => cell === "O")) {
+                return "O";
+            }
+        }
+    }
+
     static getWinningMoves(grid, symbol) {
         let winningMove = null;
         // check for available moves
@@ -35,7 +59,7 @@ class ComputerPlayer {
         for (const move of availableMoves) {
             let testGrid = grid.map((row) => row.slice());
             testGrid[move.row][move.col] = symbol;
-            if (TTT.checkWin(testGrid) === symbol) {
+            if (this.checkWin(testGrid) === symbol) {
                 winningMove = move;
                 break;
             }
@@ -57,9 +81,9 @@ class ComputerPlayer {
             return this.getWinningMoves(grid, symbol);
         } else if (this.getWinningMoves(grid, opponent) !== null) {
             return this.getWinningMoves(grid, opponent);
+        } else {
+            return this.randomMove(grid);
         }
-
-        // check for traps
     }
 }
 
