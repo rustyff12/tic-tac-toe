@@ -2,7 +2,7 @@ const Screen = require("./screen");
 const Cursor = require("./cursor");
 const ComputerPlayer = require("./computer-player");
 
-class TTT {
+export default class TTT {
     constructor() {
         // players
 
@@ -146,4 +146,4 @@ class TTT {
     }
 }
 
-module.exports = TTT;
+// module.exports = TTT;

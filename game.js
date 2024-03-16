@@ -1,3 +1,3 @@
-const TTT = require("./class/ttt");
+/* const TTT = require("./class/ttt");
 
-ttt = new TTT();
+ttt = new TTT(); */

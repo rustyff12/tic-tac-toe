@@ -1,4 +1,4 @@
-class ComputerPlayer {
+export default class ComputerPlayer {
     static getValidMoves(grid) {
         let validMoves = [];
 
@@ -87,4 +87,4 @@ class ComputerPlayer {
     }
 }
 
-module.exports = ComputerPlayer;
+// module.exports = ComputerPlayer;
