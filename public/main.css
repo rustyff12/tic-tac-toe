@@ -93,12 +93,24 @@ textarea:not([rows]) {
 :root {
     --clr-black: #000;
     --clr-white: #fff;
-    --clr-main-bg: rgb(223, 25, 12);
-    --clr-main: linear-gradient(
+    /* --clr-main-bg: rgb(223, 25, 12); */
+    --btn-main: linear-gradient(
         155deg,
         rgba(223, 25, 12, 1) 0%,
         rgba(250, 18, 171, 1) 100%
     );
+    --clr-main: #fff;
+    /* linear-gradient(155deg, rgba(223, 25, 12, 1) 0%, rgba(250, 18, 171, 1) 100%) */
+    /* --clr-secondary-bg: rgb(12, 223, 121); */
+    --btn-secondary: linear-gradient(
+        155deg,
+        rgba(12, 223, 121, 1) 0%,
+        rgba(64, 18, 250, 1) 100%
+    );
+    --clr-secondary: #fff;
+    /* linear-gradient(155deg,rgba(12, 223, 121, 1) 0%,rgba(64, 18, 250, 1) 100%); */
+    --hard-bg: rgb(223, 12, 12);
+    /* --hard: radial-gradient(circle, rgba(247,0,0,1) 0%, rgba(230,216,10,1) 100%); */
 }
 
 body {
@@ -144,7 +156,7 @@ body {
     width: 100%;
     height: 100%;
     background: var(--clr-black);
-    /* border: 2px solid var(--clr-black); */
+    cursor: pointer;
 }
 #grid-1 {
     grid-area: 1 / 1 / 2 / 2;
@@ -209,20 +221,49 @@ body {
 }
 
 .game-buttons button {
-    background: var(--clr-main);
-    color: var(--clr-white);
     border: none;
     border-radius: 5px;
     padding: 0.8rem 1.6rem;
     font-size: 1rem;
     font-weight: 700;
 }
-.game-buttons button:hover {
+
+.game-buttons .x-choice {
+    background: var(--btn-main);
+    color: var(--clr-white);
+}
+.game-buttons .o-choice {
+    background: var(--btn-secondary);
+    color: var(--clr-white);
+}
+.start-game,
+.restart-game {
     background: var(--clr-main);
     color: var(--clr-white);
-    border: none;
-    border-radius: 5px;
-    padding: 0.8rem 1.6rem;
-    font-size: 1rem;
+}
+
+.x-symbol {
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--clr-main);
+    -webkit-background-clip: text;
+    color: transparent;
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+
+.o-symbol {
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--clr-secondary);
+    -webkit-background-clip: text;
+    color: transparent;
+    font-size: 2.5rem;
     font-weight: 700;
 }
