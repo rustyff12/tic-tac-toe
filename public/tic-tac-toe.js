@@ -126,7 +126,7 @@ gameGridContainer.addEventListener("click", (e) => {
                 setTimeout(() => {
                     playerTurn = 1;
                     placeMove(player2);
-                }, 3000);
+                }, 1500);
             } else if (checkWin(gameGrid) === player1) {
                 console.log("here");
                 gameStateWin(player1);
