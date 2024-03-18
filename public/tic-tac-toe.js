@@ -3,7 +3,6 @@ const xChoice = document.querySelector(".x-choice");
 const oChoice = document.querySelector(".o-choice");
 const playerWins = document.querySelector(".player-wins");
 const computerWins = document.querySelector(".computer-wins");
-// const startGame = document.querySelector(".start-game");
 const restartGame = document.querySelector(".restart-game");
 const playerChoice = document.querySelector(".player-choice");
 
@@ -41,7 +40,7 @@ xChoice.addEventListener("click", () => {
     computerWins.classList.remove("hidden");
 
     restartGame.classList.remove("hidden");
-    // playerChoice.classList.add("hidden");
+
     player1 = "X";
     player2 = "O";
     playerSelection = true;
@@ -70,7 +69,7 @@ oChoice.addEventListener("click", () => {
     playerWins.classList.remove("hidden");
     computerWins.classList.remove("hidden");
     restartGame.classList.remove("hidden");
-    // playerChoice.classList.add("hidden");
+
     player1 = "O";
     player2 = "X";
     playerSelection = true;
@@ -100,7 +99,6 @@ restartGame.addEventListener("click", () => {
     computerWins.classList.add("hidden");
 
     restartGame.classList.add("hidden");
-    playerChoice.classList.remove("hidden");
     playerSelection = false;
     gameGrid = [
         [" ", " ", " "],
@@ -133,8 +131,6 @@ gameGridContainer.addEventListener("click", (e) => {
             placeMove(player1, row, col);
             disableCell(row, col);
 
-            console.log(checkWin(gameGrid));
-            console.log(player1);
             if (checkWin(gameGrid) === false) {
                 playerChoice.innerText = `Player ${player2}'s Turn`;
                 setTimeout(() => {
@@ -142,7 +138,6 @@ gameGridContainer.addEventListener("click", (e) => {
                     placeMove(player2);
                 }, 1500);
             } else if (checkWin(gameGrid) === player1) {
-                console.log("here");
                 saveWins(player1);
                 gameStateWin(player1);
                 playerTurn = 1;
@@ -154,7 +149,7 @@ gameGridContainer.addEventListener("click", (e) => {
             }
         }
 
-        console.log(gameGrid);
+        // console.log(gameGrid);
     }
 });
 
@@ -245,7 +240,7 @@ const placeMove = (player, row, col) => {
             }
         }
         disableCell(position.row, position.col);
-        console.log(gameGrid);
+
         if (checkWin(gameGrid) === player2) {
             saveWins(player2);
             gameStateWin(player2);
