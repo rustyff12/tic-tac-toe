@@ -79,6 +79,7 @@ restartGame.addEventListener("click", () => {
     gridSections.forEach((section) => {
         section.classList.remove("disabled");
     });
+    playerChoice.innerText = `Please Choose X or O`;
     xChoice.classList.remove("hidden");
     oChoice.classList.remove("hidden");
     // playerWins.classList.add("hidden");
