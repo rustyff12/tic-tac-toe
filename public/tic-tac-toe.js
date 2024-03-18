@@ -186,6 +186,41 @@ const computerRandomMove = (grid) => {
     }
 };
 
+// CPU winning move
+const cpuWinningMoves = (grid, symbol) => {
+    let winningMove = null;
+    let availableMoves = getValidMoves(grid);
+    // check for winning move posibility
+    for (const move of availableMoves) {
+        let testGrid = grid.map((row) => row.slice());
+        testGrid[move.row][move.col] = symbol;
+        if (checkWin(testGrid) === symbol) {
+            winningMove = move;
+            break;
+        }
+    }
+    return winningMove;
+};
+
+// CPU Smart move
+const cpuSmartMove = (grid, symbol) => {
+    let opponent;
+    if (symbol === "X") {
+        opponent = "O";
+    } else if (symbol === "O") {
+        opponent = "X";
+    }
+
+    //  Check for win / block
+    if (cpuWinningMoves(grid, symbol) !== null) {
+        return cpuWinningMoves(grid, symbol);
+    } else if (cpuWinningMoves(grid, opponent) !== null) {
+        return cpuWinningMoves(grid, opponent);
+    } else {
+        return computerRandomMove(grid);
+    }
+};
+
 // Place Move
 const placeMove = (player, row, col) => {
     // Player
@@ -193,7 +228,7 @@ const placeMove = (player, row, col) => {
         gameGrid[row][col] = player1;
         // CPU
     } else if (player === player2) {
-        let position = computerRandomMove(gameGrid);
+        let position = cpuSmartMove(gameGrid, player2);
         gameGrid[position.row][position.col] = player2;
         const gridSections = document.querySelectorAll(".grid-section");
         for (let i = 0; i < gridSections.length; i++) {
@@ -283,6 +318,7 @@ const checkWin = (grid) => {
     return "T"; // Tie, no empty cells and no winner
 };
 
+// local storage for saving win totals
 const saveWins = (player) => {
     const localStorageKey =
         player === player1 ? "playerWinsTotal" : "cpuWinsTotal";
@@ -292,8 +328,14 @@ const saveWins = (player) => {
     const newTotal = previousTotalNum + 1;
 
     localStorage.setItem(localStorageKey, newTotal.toString());
+    if (player === player1) {
+        playerWins.textContent = `Your Wins: ${newTotal.toString()}`;
+    } else if (player === player2) {
+        computerWins.textContent = `CPU Wins: ${newTotal.toString()}`;
+    }
 };
 
+// load win totals
 window.onload = function () {
     const playerWins = localStorage.getItem("playerWinsTotal");
     const cpuWins = localStorage.getItem("cpuWinsTotal");
