@@ -19,6 +19,10 @@ let player1;
 let player2;
 let playerSelection = false;
 let playerTurn = 0;
+
+let playerWinsTotal = localStorage.getItem("playerWinTotal") || "0";
+let cpuWinsTotal = localStorage.getItem("cpuWinTotal") || "0";
+
 // Player X Choice theme
 xChoice.addEventListener("click", () => {
     const root = document.documentElement;
@@ -26,7 +30,6 @@ xChoice.addEventListener("click", () => {
     root.style.setProperty(
         "--clr-main",
         "linear-gradient(155deg,rgba(223, 25, 12, 1) 0%,rgba(250, 18, 171, 1) 100%)"
-        // "radial-gradient(circle, rgba(247,0,0,1) 0%, rgba(230,216,10,1) 100%)"
     );
     root.style.setProperty(
         "--clr-secondary",
@@ -34,14 +37,20 @@ xChoice.addEventListener("click", () => {
     );
     xChoice.classList.add("hidden");
     oChoice.classList.add("hidden");
-    // playerWins.classList.remove("hidden");
-    // computerWins.classList.remove("hidden");
-    // startGame.classList.remove("hidden");
+    playerWins.classList.remove("hidden");
+    computerWins.classList.remove("hidden");
+
     restartGame.classList.remove("hidden");
     // playerChoice.classList.add("hidden");
     player1 = "X";
     player2 = "O";
     playerSelection = true;
+    if (playerTurn === 1) {
+        playerChoice.innerText = `Player ${player2}'s Turn`;
+        setTimeout(() => {
+            placeMove(player2);
+        }, 2000);
+    }
     playerChoice.innerText = `Player ${player1}'s Turn`;
 });
 
@@ -58,14 +67,19 @@ oChoice.addEventListener("click", () => {
     );
     xChoice.classList.add("hidden");
     oChoice.classList.add("hidden");
-    // playerWins.classList.remove("hidden");
-    // computerWins.classList.remove("hidden");
-    // startGame.classList.remove("hidden");
+    playerWins.classList.remove("hidden");
+    computerWins.classList.remove("hidden");
     restartGame.classList.remove("hidden");
     // playerChoice.classList.add("hidden");
     player1 = "O";
     player2 = "X";
     playerSelection = true;
+    if (playerTurn === 1) {
+        playerChoice.innerText = `Player ${player2}'s Turn`;
+        setTimeout(() => {
+            placeMove(player2);
+        }, 2000);
+    }
     playerChoice.innerText = `Player ${player1}'s Turn`;
 });
 
@@ -82,9 +96,9 @@ restartGame.addEventListener("click", () => {
     playerChoice.innerText = `Please Choose X or O`;
     xChoice.classList.remove("hidden");
     oChoice.classList.remove("hidden");
-    // playerWins.classList.add("hidden");
-    // computerWins.classList.add("hidden");
-    // startGame.classList.add("hidden");
+    playerWins.classList.add("hidden");
+    computerWins.classList.add("hidden");
+
     restartGame.classList.add("hidden");
     playerChoice.classList.remove("hidden");
     playerSelection = false;
@@ -129,9 +143,14 @@ gameGridContainer.addEventListener("click", (e) => {
                 }, 1500);
             } else if (checkWin(gameGrid) === player1) {
                 console.log("here");
+                saveWins(player1);
                 gameStateWin(player1);
+                playerTurn = 1;
+                restartGame.innerText = "New Game";
             } else if (checkWin(gameGrid) === "T") {
                 gameStateWin("T");
+                playerTurn = 1;
+                restartGame.innerText = "New Game";
             }
         }
 
@@ -139,6 +158,7 @@ gameGridContainer.addEventListener("click", (e) => {
     }
 });
 
+// CPU Valid moves
 const getValidMoves = (grid) => {
     let validMoves = [];
     for (let i = 0; i < grid.length; i++) {
@@ -153,6 +173,7 @@ const getValidMoves = (grid) => {
     return validMoves;
 };
 
+// CPU Random Move
 const computerRandomMove = (grid) => {
     let availableMoves = getValidMoves(grid);
     if (playerTurn === 1) {
@@ -165,9 +186,12 @@ const computerRandomMove = (grid) => {
     }
 };
 
+// Place Move
 const placeMove = (player, row, col) => {
+    // Player
     if (player === player1) {
         gameGrid[row][col] = player1;
+        // CPU
     } else if (player === player2) {
         let position = computerRandomMove(gameGrid);
         gameGrid[position.row][position.col] = player2;
@@ -188,9 +212,14 @@ const placeMove = (player, row, col) => {
         disableCell(position.row, position.col);
         console.log(gameGrid);
         if (checkWin(gameGrid) === player2) {
+            saveWins(player2);
             gameStateWin(player2);
+            playerTurn = 0;
+            restartGame.innerText = "New Game";
         } else if (checkWin(gameGrid) === "T") {
             gameStateWin("T");
+            playerTurn = 0;
+            restartGame.innerText = "New Game";
         } else {
             playerChoice.innerText = `Player ${player1}'s Turn`;
             playerTurn = 0;
@@ -198,6 +227,7 @@ const placeMove = (player, row, col) => {
     }
 };
 
+// Disable cell
 const disableCell = (row, col) => {
     const targetCell = document.querySelector(
         `.grid-section[data-row="${row}"][data-col="${col}"]`
@@ -213,13 +243,13 @@ const gameStateWin = (symbol) => {
     if (symbol === player1) {
         playerChoice.innerText = `YOU WON!!!`;
     } else if (symbol === player2) {
-        playerChoice.innerText = `sorry, you loose`;
+        playerChoice.innerText = `Sorry, you loose`;
     } else if (symbol === "T") {
         playerChoice.innerText = `TIE GAME`;
     }
 };
 
-//Check game state
+// Check game state
 const checkWin = (grid) => {
     const winConditions = [
         // Rows
@@ -251,4 +281,30 @@ const checkWin = (grid) => {
     }
 
     return "T"; // Tie, no empty cells and no winner
+};
+
+const saveWins = (player) => {
+    const localStorageKey =
+        player === player1 ? "playerWinsTotal" : "cpuWinsTotal";
+
+    const previousTotal = localStorage.getItem(localStorageKey);
+    const previousTotalNum = parseInt(previousTotal) || 0;
+    const newTotal = previousTotalNum + 1;
+
+    localStorage.setItem(localStorageKey, newTotal.toString());
+};
+
+window.onload = function () {
+    const playerWins = localStorage.getItem("playerWinsTotal");
+    const cpuWins = localStorage.getItem("cpuWinsTotal");
+
+    if (playerWins !== null) {
+        const playerWinsElement = document.querySelector(".player-wins");
+        playerWinsElement.textContent = `Your Wins: ${playerWins}`;
+    }
+
+    if (cpuWins !== null) {
+        const cpuWinsElement = document.querySelector(".computer-wins");
+        cpuWinsElement.textContent = `CPU Wins: ${cpuWins}`;
+    }
 };
