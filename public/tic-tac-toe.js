@@ -133,8 +133,8 @@ gameGridContainer.addEventListener("click", (e) => {
 
             if (checkWin(gameGrid) === false) {
                 playerChoice.innerText = `Player ${player2}'s Turn`;
+                playerTurn = 1;
                 setTimeout(() => {
-                    playerTurn = 1;
                     placeMove(player2);
                 }, 1500);
             } else if (checkWin(gameGrid) === player1) {
