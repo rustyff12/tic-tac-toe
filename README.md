@@ -1,2 +1,2 @@
 # tic-tac-toe
-Command line tic-tac-toe for a/A Open
+Initially a Command line tic-tac-toe. Then turned into a web version for a/A Open
